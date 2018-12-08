@@ -1,7 +1,8 @@
-package com.example.amir.matchinggame
+package com.example.amir.matchinggame.ui
 
-import android.support.v7.app.AppCompatActivity
+import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import com.example.amir.matchinggame.R
 
 class MainActivity : AppCompatActivity() {
 
