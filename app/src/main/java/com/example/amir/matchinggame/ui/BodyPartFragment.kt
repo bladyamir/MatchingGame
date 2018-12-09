@@ -11,14 +11,16 @@ import com.example.amir.matchinggame.utils.Injector
 import kotlinx.android.synthetic.main.fragment_body_part.*
 
 class BodyPartFragment : Fragment() {
+    var imageResourse:Int=0
+
+
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.fragment_body_part,container,false)
     }
 
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        val factory=Injector.provideViewModelFactory()
-        val viewModel=ViewModelProviders.of(this,factory)
-            .get(DataViewMode::class.java)
-        body_part_image_view.setImageResource(viewModel.getHeads()[0])
+        body_part_image_view.setImageResource(imageResourse)
     }
 }

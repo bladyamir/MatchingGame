@@ -6,11 +6,11 @@ import com.example.amir.matchinggame.data.Repository
 class DataViewMode(private val repository: Repository)
     :ViewModel(){
 
-    fun getHeads()=repository.getHead()
+    fun getHead()=repository.getHead()
 
     fun getBody()=repository.getBody()
 
-    fun getLegs()=repository.getLegs()
+    fun getLeg()=repository.getLeg()
 
     fun getAll()=repository.getAll()
 }
