@@ -1,24 +1,30 @@
 package com.example.amir.matchinggame.ui
 
 import android.os.Bundle
+import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProviders
 import com.example.amir.matchinggame.R
 import com.example.amir.matchinggame.utils.Injector
 
-class DetailsActivity : AppCompatActivity() {
+class DetailsActivity : AppCompatActivity() ,BodyPartFragment.IClickListener {
+
+    private var viewModel:DataViewMode?=null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_details)
 
         val factory= Injector.provideViewModelFactory()
-        val viewModel= ViewModelProviders.of(this,factory)
+        viewModel= ViewModelProviders.of(this,factory)
             .get(DataViewMode::class.java)
 
         val headFragment=BodyPartFragment()
 
-        headFragment.imageResourse=viewModel.getHead()
+        if(viewModel!=null){
+            headFragment.imageResourse=viewModel.getHead()
+        }
+
 
         val fragmentManager=supportFragmentManager
 
@@ -41,5 +47,9 @@ class DetailsActivity : AppCompatActivity() {
             .commit()
 
 
+    }
+
+    override fun imageClicked(view: View) {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 }
