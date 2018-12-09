@@ -61,11 +61,10 @@ class Repository private constructor(){
     }
     
     companion object {
-        @Volatile var instance:Repository?=null
-        fun getInstace(){
+        @Volatile private var instance:Repository?=null
+        fun getInstance()=
             instance?: synchronized(lock = this){
                 instance?: Repository().also { it }
             }
         }
     }
-}
