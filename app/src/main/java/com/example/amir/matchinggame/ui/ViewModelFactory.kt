@@ -6,6 +6,6 @@ import com.example.amir.matchinggame.data.Repository
 
 class ViewModelFactory(private val repository: Repository) :ViewModelProvider.NewInstanceFactory(){
     override fun <T : ViewModel?> create(modelClass: Class<T>): T {
-        return DataViewMode(repository) as T
+        return DataViewModel(repository) as T
     }
 }

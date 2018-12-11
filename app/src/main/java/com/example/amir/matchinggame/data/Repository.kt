@@ -1,14 +1,26 @@
 package com.example.amir.matchinggame.data
 
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.example.amir.matchinggame.R
+import com.example.amir.matchinggame.ui.BodyPartsModel
 
 class Repository private constructor(){
-    private val index:Int=0
-    private var liveIndex= MutableLiveData<Int>()
+
+    private var liveBodyParts= MutableLiveData<BodyPartsModel>()
 
     init {
-        liveIndex.value=index
+
+        val bodyPartsModel=BodyPartsModel()
+
+        bodyPartsModel.headImage=getHeads()[0]
+
+        bodyPartsModel.bodyImage=getBodys()[0]
+
+        bodyPartsModel.legImage=getLegs()[0]
+
+        liveBodyParts.value=bodyPartsModel
+
     }
 
 //    fun nextIndec
@@ -69,13 +81,45 @@ class Repository private constructor(){
         return all
     }
 
-    fun getHead()=getHeads()[1]
+    fun headClicked(){
 
+        var model:BodyPartsModel?=liveBodyParts.value
 
-    fun getLeg()=getLegs()[1]
+        model!!.headImageIndex++
 
+        model!!.headImage=getHeads()[ model!!.headImageIndex]
 
-    fun getBody()= getBodys()[1]
+        model!!.hotImage=model!!.headImage
+
+        liveBodyParts.value=model
+
+    }
+
+    fun bodyClicked(){
+        var model:BodyPartsModel?=liveBodyParts.value
+
+        model!!.bodyImageIndex++
+
+        model!!.bodyImage=getBodys()[model!!.bodyImageIndex]
+
+        model!!.hotImage=model!!.bodyImage
+
+        liveBodyParts.value=model
+    }
+
+    fun legClicked(){
+        var model:BodyPartsModel?=liveBodyParts.value
+
+        model!!.legImageIndex++
+
+        model!!.legImage=getHeads()[model!!.legImageIndex]
+
+        model!!.legImage=model!!.legImage
+
+        liveBodyParts.value=model
+    }
+
+    fun getLiveBodyParts()=liveBodyParts
     
     companion object {
         @Volatile private var instance:Repository?=null

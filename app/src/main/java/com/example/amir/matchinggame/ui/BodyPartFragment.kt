@@ -11,9 +11,7 @@ import kotlinx.android.synthetic.main.fragment_body_part.*
 
 class BodyPartFragment: Fragment() {
 
-    var imageResourse:Int?=0
-
-    private var clickListener:IClickListener?=null
+    var imageResourse:Int=0
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
 
@@ -21,20 +19,11 @@ class BodyPartFragment: Fragment() {
 
     }
 
-    override fun onAttach(context: Context) {
-        super.onAttach(context)
-
-        clickListener=context as IClickListener
-    }
-
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+
         body_part_image_view.setImageResource(imageResourse)
 
-        body_part_image_view.setOnClickListener(View.OnClickListener { view -> clickListener!!.imageClicked(view) })
     }
 
-    interface IClickListener{
-        fun imageClicked(view:View)
-    }
+
 }
