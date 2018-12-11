@@ -112,7 +112,7 @@ class Repository private constructor(){
 
         model!!.legImageIndex++
 
-        model!!.legImage=getHeads()[model!!.legImageIndex]
+        model!!.legImage=getLegs()[model!!.legImageIndex]
 
         model!!.legImage=model!!.legImage
 
