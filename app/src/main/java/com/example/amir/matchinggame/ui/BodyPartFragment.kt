@@ -13,6 +13,13 @@ class BodyPartFragment: Fragment() {
 
     var imageResourse:Int=0
 
+    lateinit var imageClickListerner: ImageClickListener
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        imageClickListerner=context as ImageClickListener
+    }
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
 
         return inflater.inflate(R.layout.fragment_body_part,container,false)
@@ -23,7 +30,12 @@ class BodyPartFragment: Fragment() {
 
         body_part_image_view.setImageResource(imageResourse)
 
+        body_part_image_view.setOnClickListener { imageView:View->imageClickListerner.imageClick(imageView,view.id) }
+
     }
 
+    interface ImageClickListener{
 
+        fun imageClick(imageView:View,parentId:Int)
+    }
 }

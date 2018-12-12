@@ -2,6 +2,8 @@ package com.example.amir.matchinggame.ui
 
 import android.os.Bundle
 import android.view.View
+import android.widget.ImageView
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
@@ -10,21 +12,22 @@ import com.example.amir.matchinggame.R
 import com.example.amir.matchinggame.utils.Injector
 import kotlinx.android.synthetic.main.activity_details.*
 
-class DetailsActivity : AppCompatActivity(){
+class DetailsActivity : AppCompatActivity(), BodyPartFragment.ImageClickListener {
 
-    private var initialze:Boolean=false
 
-    private lateinit var headFragment:BodyPartFragment
+    private var initialze: Boolean = false
 
-    private lateinit var bodyFragment:BodyPartFragment
+    private lateinit var headFragment: BodyPartFragment
 
-    private lateinit var legFragment:BodyPartFragment
+    private lateinit var bodyFragment: BodyPartFragment
+
+    private lateinit var legFragment: BodyPartFragment
 
     private lateinit var viewModel: DataViewModel
 
-    private lateinit var targetedFragment:BodyPartFragment
+    private lateinit var targetedFragment: BodyPartFragment
 
-    private var targetedContainer:Int=0
+    private lateinit var targetedView: ImageView
 
     override fun onCreate(savedInstanceState: Bundle?) {
 
@@ -34,86 +37,65 @@ class DetailsActivity : AppCompatActivity(){
 
         initialize()
 
-        headFragment=BodyPartFragment()
+        headFragment = BodyPartFragment()
 
-        bodyFragment=BodyPartFragment()
+        bodyFragment = BodyPartFragment()
 
-        legFragment=BodyPartFragment()
+        legFragment = BodyPartFragment()
 
     }
 
     private fun initialize() {
         val factory = Injector.provideViewModelFactory()
-       viewModel = ViewModelProviders.of(this, factory)
+        viewModel = ViewModelProviders.of(this, factory)
             .get(DataViewModel::class.java)
         viewModel.getLiveBodyParts()
-            .observe(this, Observer {bodyPartsModel->
-                if(!initialze){
+            .observe(this, Observer { bodyPartsModel ->
+                if (!initialze) {
 
                     initializeUI(bodyPartsModel)
 
-                    initialze=true
+                    initialze = true
 
-                }else{
+                } else {
 
-                    targetedFragment.imageResourse=bodyPartsModel.hotImage
-                    refreshFragment(targetedContainer,targetedFragment)
+                    targetedView.setImageResource(bodyPartsModel.hotImage)
                 }
             })
 
-        initializeClickEvent()
-
     }
-
-    private fun initializeClickEvent() {
-
-        head_fragment.setOnClickListener(View.OnClickListener {
-            targetedFragment=headFragment
-            targetedContainer=R.id.head_fragment
-            viewModel.hedClicked()
-        })
-
-        body_fragment.setOnClickListener(View.OnClickListener {
-            targetedFragment=bodyFragment
-            targetedContainer=R.id.body_fragment
-            viewModel.bodyClicked()
-        })
-
-        leg_fragment.setOnClickListener(View.OnClickListener {
-            targetedFragment=legFragment
-            targetedContainer=R.id.leg_fragment
-            viewModel.legClicked()
-        })
-
-    }
-
 
     private fun initializeUI(bodyPartsModel: BodyPartsModel) {
         headFragment.imageResourse = bodyPartsModel.headImage
 
-        addFragment(R.id.head_fragment,headFragment)
+        addFragment(R.id.head_fragment, headFragment)
 
         bodyFragment.imageResourse = bodyPartsModel.bodyImage
 
-        addFragment(R.id.body_fragment,bodyFragment)
+        addFragment(R.id.body_fragment, bodyFragment)
 
         legFragment.imageResourse = bodyPartsModel.legImage
 
-        addFragment(R.id.leg_fragment,legFragment)
+        addFragment(R.id.leg_fragment, legFragment)
     }
 
-    private fun addFragment(containterId:Int, fragment:Fragment) {
+    private fun addFragment(containterId: Int, fragment: Fragment) {
         supportFragmentManager
             .beginTransaction()
             .add(containterId, fragment)
             .commit()
     }
 
-    private fun refreshFragment(containterId:Int, fragment:Fragment) {
-        supportFragmentManager
-            .beginTransaction()
-            .replace(containterId, fragment)
-            .commit()
+    override fun imageClick(imageView: View, parentId: Int) {
+        targetedView = imageView as ImageView
+
+        when(parentId){
+            R.id.head_fragment->Toast.makeText(this,"Head Clicked",Toast.LENGTH_SHORT).show()
+
+            R.id.body_fragment->Toast.makeText(this,"Body Clicked",Toast.LENGTH_SHORT).show()
+
+            R.id.leg_fragment->Toast.makeText(this,"Leg Clicked",Toast.LENGTH_SHORT).show()
+        }
     }
 
 }
